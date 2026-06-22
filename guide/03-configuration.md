@@ -40,7 +40,11 @@ MAX_SEARCH_LIMIT=1000
 ## Step 2: Create the Config File
 
 1. Create a new file `src/config/index.js`
-
+PORT=3000
+NODE_ENV=development
+POKEAPI_BASE_URL=https://pokeapi.co/api/v2
+DEFAULT_PAGE_LIMIT=20
+MAX_SEARCH_LIMIT=1000
 2. Add the following code:
 
 ```javascript
@@ -66,7 +70,27 @@ export const config = {
   }
 };
 ```
+import dotenv from 'dotenv';
 
+// Load environment variables from .env file
+dotenv.config();
+
+export const config = {
+  // Server settings
+  port: process.env.PORT || 3000,
+  nodeEnv: process.env.NODE_ENV || 'development',
+
+  // PokeAPI settings
+  pokeapi: {
+    baseUrl: process.env.POKEAPI_BASE_URL || 'https://pokeapi.co/api/v2'
+  },
+
+  // Pagination settings
+  pagination: {
+    defaultLimit: parseInt(process.env.DEFAULT_PAGE_LIMIT, 10) || 20,
+    maxSearchLimit: parseInt(process.env.MAX_SEARCH_LIMIT, 10) || 1000
+  }
+};
 3. Save the file
 
 ---
@@ -79,7 +103,67 @@ export const config = {
 import dotenv from 'dotenv';
 ```
 
-The `dotenv` package reads your `.env` file and loads variables into `process.env`.
+The `dotenv` package reads your `.env`import dotenv from 'dotenv';
+
+// Load environment variables from .env file
+dotenv.config();
+
+export const config = {
+  // Server settings
+  port: process.env.PORT || 3000,
+  nodeEnv: process.env.NODE_ENV || 'development',
+
+  // PokeAPI settings
+  pokeapi: {
+    baseUrl: process.env.POKEAPI_BASE_URL || 'https://pokeapi.co/api/v2'
+  },
+
+  // Pagination settings
+  pagination: {
+    defaultLimit: parseInt(process.env.DEFAULT_PAGE_LIMIT, 10) || 20,
+    maxSearchLimit: parseInt(process.env.MAX_SEARCH_LIMIT, 10) || 1000
+  }import dotenv from 'dotenv';
+
+// Load environment variables from .env file
+dotenv.config();
+
+export const config = {
+  // Server settings
+  port: process.env.PORT || 3000,
+  nodeEnv: process.env.NODE_ENV || 'development',
+
+  // PokeAPI settings
+  pokeapi: {
+    baseUrl: process.env.POKEAPI_BASE_URL || 'https://pokeapi.co/api/v2'
+  },
+
+  // Pagination settings
+  pagination: {
+    defaultLimit: parseInt(process.env.DEFAULT_PAGE_LIMIT, 10) || 20,
+    maxSearchLimit: parseInt(process.env.MAX_SEARCH_LIMIT, 10) || 1000
+  }
+};
+};import dotenv from 'dotenv';
+
+// Load environment variables from .env file
+dotenv.config();
+
+export const config = {
+  // Server settings
+  port: process.env.PORT || 3000,
+  nodeEnv: process.env.NODE_ENV || 'development',
+
+  // PokeAPI settings
+  pokeapi: {
+    baseUrl: process.env.POKEAPI_BASE_URL || 'https://pokeapi.co/api/v2'
+  },
+
+  // Pagination settings
+  pagination: {
+    defaultLimit: parseInt(process.env.DEFAULT_PAGE_LIMIT, 10) || 20,
+    maxSearchLimit: parseInt(process.env.MAX_SEARCH_LIMIT, 10) || 1000
+  }
+}; file and loads variables into `process.env`.
 
 ### Load the variables
 
@@ -163,7 +247,7 @@ Remove-Item test-config.js
 ```
 
 ---
-
+            
 ## Step 5: Using the Config
 
 Here's how other files will use the config:
@@ -177,7 +261,7 @@ console.log(`Server running on port ${config.port}`);
 console.log(`API URL: ${config.pokeapi.baseUrl}`);
 console.log(`Items per page: ${config.pagination.defaultLimit}`);
 ```
-
+            
 ---
 
 ## Best Practices
