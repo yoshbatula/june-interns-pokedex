@@ -147,7 +147,11 @@ MAX_SEARCH_LIMIT=1000
 ```cmd
 mkdir src\config src\routes src\controllers src\services src\repositories src\views\partials public
 ```
-
+PORT=3000
+NODE_ENV=development
+POKEAPI_BASE_URL=https://pokeapi.co/api/v2
+DEFAULT_PAGE_LIMIT=20
+MAX_SEARCH_LIMIT=1000
 **Windows (PowerShell):**
 ```powershell
 mkdir src/config, src/routes, src/controllers, src/services, src/repositories, src/views/partials, public

@@ -59,7 +59,11 @@ router.get('/pokemon/:nameOrId', pokemonController.getPokemonDetails);
 ```
 
 ### Controllers (`src/controllers/`)
-
+PORT=3000
+NODE_ENV=development
+POKEAPI_BASE_URL=https://pokeapi.co/api/v2
+DEFAULT_PAGE_LIMIT=20
+MAX_SEARCH_LIMIT=1000
 **Job:** Handle HTTP requests and responses.
 
 ```javascript
@@ -84,7 +88,11 @@ async getPokemonDetails(req, res) {
 // Example service function
 async getPokemonDetails(nameOrId) {
   // 1. Get raw data from repository
-  const rawData = await pokemonRepository.getPokemonByNameOrId(nameOrId);
+  const rawData = await pokemonRePORT=3000
+NODE_ENV=development
+POKEAPI_BASE_URL=https://pokeapi.co/api/v2
+DEFAULT_PAGE_LIMIT=20
+MAX_SEARCH_LIMIT=1000pository.getPokemonByNameOrId(nameOrId);
 
   // 2. Transform it (format names, convert units, etc.)
   const formattedData = this.formatPokemonData(rawData);
