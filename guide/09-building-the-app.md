@@ -59,7 +59,9 @@ app.use(express.static(join(__dirname, '../public')));
 ```
 
 2. Save the file
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(join(__dirname, '../public')));
 | Middleware | Purpose |
 |------------|---------|
 | `express.json()` | Parse JSON request bodies |
@@ -155,7 +157,7 @@ app.use((req, res) => {
     error: 'The page you are looking for does not exist.'
   });
 });
-
+app.use('/', routes);
 app.use((err, _req, res, _next) => {
   res.status(500).render('error', {
     message: 'Something went wrong',
@@ -184,7 +186,19 @@ if (nodeEnv !== 'test') {
   });
 }
 
-export default app;
+export default app;app.use((req, res) => {
+  res.status(404).render('error', {
+    message: 'Page not found',
+    error: 'The page you are looking for does not exist.'
+  });
+});
+app.use('/', routes);
+app.use((err, _req, res, _next) => {
+  res.status(500).render('error', {
+    message: 'Something went wrong',
+    error: err.message
+  });
+});
 ```
 
 2. Save the file

@@ -181,7 +181,21 @@ The header holds the `<head>` (including the Tailwind CDN + config), a decorativ
         <a href="https://pokeapi.co/" target="_blank" rel="noopener" class="font-semibold text-brand-600 hover:text-brand-700">PokéAPI</a>
       </p>
     </div>
+  </footer></main>
+
+  <footer class="mt-12 border-t border-slate-200/70 bg-white/60">
+    <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-4 py-6 text-sm text-slate-500 sm:flex-row sm:px-6 lg:px-8">
+      <p>
+        Built with a layered Express + EJS architecture.
+      </p>
+      <p>
+        Data from
+        <a href="https://pokeapi.co/" target="_blank" rel="noopener" class="font-semibold text-brand-600 hover:text-brand-700">PokéAPI</a>
+      </p>
+    </div>
   </footer>
+</body>
+</html>
 </body>
 </html>
 ```
@@ -280,7 +294,68 @@ This one template powers three views — the full list, search results, and the 
       Discover every Pokémon
     </h1>
     <p class="mt-2 max-w-2xl text-slate-500">
+      Browse the National Pokédex, filter by type, or search by name and ID<section class="animate-fade-up">
+  <% if (searchQuery) { %>
+    <p class="text-sm font-semibold uppercase tracking-wider text-brand-600">Search results</p>
+    <div class="mt-1 flex flex-wrap items-end justify-between gap-3">
+      <h1 class="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
+        “<%= searchQuery %>”
+      </h1>
+      <a href="/" class="text-sm font-semibold text-slate-500 hover:text-brand-600">Clear search →</a>
+    </div>
+    <p class="mt-1 text-sm text-slate-500"><%= totalCount %> Pokémon found</p>
+  <% } else if (selectedType) { %>
+    <p class="text-sm font-semibold uppercase tracking-wider text-brand-600">Filtered by type</p>
+    <div class="mt-1 flex flex-wrap items-end justify-between gap-3">
+      <h1 class="text-2xl font-extrabold capitalize tracking-tight text-slate-900 sm:text-3xl">
+        <%= selectedType %> Pokémon
+      </h1>
+      <a href="/" class="text-sm font-semibold text-slate-500 hover:text-brand-600">Show all →</a>
+    </div>
+    <p class="mt-1 text-sm text-slate-500"><%= totalCount %> Pokémon of this type</p>
+  <% } else { %>
+    <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+      Discover every Pokémon
+    </h1>
+    <p class="mt-2 max-w-2xl text-slate-500">
       Browse the National Pokédex, filter by type, or search by name and ID. Tap any Pokémon to dive into its full stats.
+    </p>
+  <% } %>
+</section>
+
+<!-- Type filter -->
+<nav class="no-scrollbar mt-6 flex gap-2 overflow-x-auto pb-1">
+  <a
+    href="/"
+    class="shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition <%= selectedType === '' && !searchQuery ? 'bg-slate-900 text-white shadow-card' : 'bg-white text-slate-600 ring-1 ring-slate-200 hover:bg-slate-50' %>"
+  >All</a>
+  <% types.forEach((type) => { %>
+    <a
+      href="/type/<%= type.name %>"
+      class="shrink-0 rounded-full px-4 py-2 text-sm font-semibold capitalize text-white shadow-sm ring-1 ring-black/5 transition hover:brightness-105 <%= selectedType === type.name ? 'ring-2 ring-slate-900 ring-offset-2' : '' %>"
+      style="background-color: <%= typeColors[type.name] || '#9099a1' %>;"
+    ><%= type.displayName %></a>
+  <% }); %>
+</nav>
+
+<!-- Grid -->
+<% if (pokemon && pokemon.length > 0) { %>
+  <div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+    <% pokemon.forEach((poke) => { %>
+      <%- include('partials/card', { poke }) %>
+    <% }); %>
+  </div>
+<% } else { %>
+  <div class="mt-10 flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-white/60 px-6 py-16 text-center">
+    <span class="grid h-16 w-16 place-items-center rounded-full bg-slate-100 text-3xl">🔍</span>
+    <h2 class="mt-4 text-lg font-bold text-slate-800">No Pokémon found</h2>
+    <p class="mt-1 max-w-sm text-sm text-slate-500">
+      We couldn't find anything matching your query. Try a different name or browse by type.
+    </p>
+    <a href="/" class="mt-5 rounded-xl bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-card transition hover:bg-brand-700">
+      Back to all Pokémon
+    </a>
+  </div>. Tap any Pokémon to dive into its full stats.
     </p>
   <% } %>
 </section>
@@ -329,13 +404,82 @@ This one template powers three views — the full list, search results, and the 
   %>
   <div class="mt-10 flex items-center justify-center gap-3">
     <% if (hasPrevPage) { %>
+      <a href="<%= prevUrl %>" class="inline-flex items-center gap-1.5 rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-card ring-1 ring-slate-200 transition hover:<section class="animate-fade-up">
+  <% if (searchQuery) { %>
+    <p class="text-sm font-semibold uppercase tracking-wider text-brand-600">Search results</p>
+    <div class="mt-1 flex flex-wrap items-end justify-between gap-3">
+      <h1 class="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
+        “<%= searchQuery %>”
+      </h1>
+      <a href="/" class="text-sm font-semibold text-slate-500 hover:text-brand-600">Clear search →</a>
+    </div>
+    <p class="mt-1 text-sm text-slate-500"><%= totalCount %> Pokémon found</p>
+  <% } else if (selectedType) { %>
+    <p class="text-sm font-semibold uppercase tracking-wider text-brand-600">Filtered by type</p>
+    <div class="mt-1 flex flex-wrap items-end justify-between gap-3">
+      <h1 class="text-2xl font-extrabold capitalize tracking-tight text-slate-900 sm:text-3xl">
+        <%= selectedType %> Pokémon
+      </h1>
+      <a href="/" class="text-sm font-semibold text-slate-500 hover:text-brand-600">Show all →</a>
+    </div>
+    <p class="mt-1 text-sm text-slate-500"><%= totalCount %> Pokémon of this type</p>
+  <% } else { %>
+    <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+      Discover every Pokémon
+    </h1>
+    <p class="mt-2 max-w-2xl text-slate-500">
+      Browse the National Pokédex, filter by type, or search by name and ID. Tap any Pokémon to dive into its full stats.
+    </p>
+  <% } %>
+</section>
+
+<!-- Type filter -->
+<nav class="no-scrollbar mt-6 flex gap-2 overflow-x-auto pb-1">
+  <a
+    href="/"
+    class="shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition <%= selectedType === '' && !searchQuery ? 'bg-slate-900 text-white shadow-card' : 'bg-white text-slate-600 ring-1 ring-slate-200 hover:bg-slate-50' %>"
+  >All</a>
+  <% types.forEach((type) => { %>
+    <a
+      href="/type/<%= type.name %>"
+      class="shrink-0 rounded-full px-4 py-2 text-sm font-semibold capitalize text-white shadow-sm ring-1 ring-black/5 transition hover:brightness-105 <%= selectedType === type.name ? 'ring-2 ring-slate-900 ring-offset-2' : '' %>"
+      style="background-color: <%= typeColors[type.name] || '#9099a1' %>;"
+    ><%= type.displayName %></a>
+  <% }); %>
+</nav>
+
+<!-- Grid -->
+<% if (pokemon && pokemon.length > 0) { %>
+  <div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+    <% pokemon.forEach((poke) => { %>
+      <%- include('partials/card', { poke }) %>
+    <% }); %>
+  </div>
+<% } else { %>
+  <div class="mt-10 flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-white/60 px-6 py-16 text-center">
+    <span class="grid h-16 w-16 place-items-center rounded-full bg-slate-100 text-3xl">🔍</span>
+    <h2 class="mt-4 text-lg font-bold text-slate-800">No Pokémon found</h2>
+    <p class="mt-1 max-w-sm text-sm text-slate-500">
+      We couldn't find anything matching your query. Try a different name or browse by type.
+    </p>
+    <a href="/" class="mt-5 rounded-xl bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-card transition hover:bg-brand-700">
+      Back to all Pokémon
+    </a>
+  </div>bg-slate-50">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        Previous
+      </a>
+    <% } else { %>
+      <span class="inline-flex cursor-not-allowed items-center gap-1.5 rounded-xl bg-white/60 px-4 py-2.5 text-sm font-semibold text-slate-300 ring-1 ring-slate-200">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4"><path stroke-l<div class="mt-10 flex items-center justify-center gap-3">
+    <% if (hasPrevPage) { %>
       <a href="<%= prevUrl %>" class="inline-flex items-center gap-1.5 rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-card ring-1 ring-slate-200 transition hover:bg-slate-50">
         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
         Previous
       </a>
     <% } else { %>
       <span class="inline-flex cursor-not-allowed items-center gap-1.5 rounded-xl bg-white/60 px-4 py-2.5 text-sm font-semibold text-slate-300 ring-1 ring-slate-200">
-        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroinecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
         Previous
       </span>
     <% } %>
